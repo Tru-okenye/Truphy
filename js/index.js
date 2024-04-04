@@ -49,17 +49,39 @@ document.addEventListener("DOMContentLoaded", function() {
         scrollers.forEach((scroller) => {
             scroller.setAttribute("data-animated", true);
             scroller.classList.add("animated"); // Add a class to trigger animation
-            const scrollerInner = document.querySelector('.inner-scroller');
+            const scrollerInner = scroller.querySelector('.inner-scroller');
             const scrollerContent = Array.from(scrollerInner.children);
 
             scrollerContent.forEach(item => {
-            const duplicatedItem = item.cloneNode(true);
-            duplicatedItem.setAttribute("aria-hidden", true);
-            scrollerInner.appendChild(duplicatedItem);
-            console.log(duplicatedItem)
-            })
+                const duplicatedItem = item.cloneNode(true);
+                duplicatedItem.setAttribute("aria-hidden", true);
+                scrollerInner.appendChild(duplicatedItem);
+            });
+
+            // Reset animation by removing and re-adding the 'animated' class
+            scroller.classList.remove("animated");
+            setTimeout(() => {
+                scroller.classList.add("animated");
+            }, 10); // Adding a small delay to ensure proper reset
         });
     }
+});
+
+// JavaScript
+document.addEventListener("DOMContentLoaded", function() {
+    var readMoreBtn = document.getElementById("readMoreBtn");
+    var hiddenText = document.getElementById("hiddenText");
+
+    readMoreBtn.addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent default action of anchor element
+        if (hiddenText.style.display === "none") {
+            hiddenText.style.display = "block";
+            readMoreBtn.textContent = "Read less";
+        } else {
+            hiddenText.style.display = "none";
+            readMoreBtn.textContent = "Read more";
+        }
+    });
 });
 
 
@@ -101,6 +123,25 @@ window.onscroll = () => {
     navbar.classList.remove('active');
 
 }
+
+window.addEventListener('scroll', reveal);
+
+function reveal() {
+    var reveals = document.querySelectorAll('.reveal');
+    for (var i = 0; i < reveals.length; i++) {
+        var windowheight = window.innerHeight;
+        var revealTop = reveals[i].getBoundingClientRect().top;
+        var revealpoint = 150;
+
+        if (revealTop < windowheight - revealpoint) {
+            reveals[i].classList.add('active');
+        } else {
+            reveals[i].classList.remove('active');
+
+        }
+    }
+}
+
 
 
 
